@@ -2,8 +2,8 @@
 ln -fs /usr/share/zoneinfo/Asia/Manila /etc/localtime
 sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config &> /dev/null
 #change this according to your database details
-proxy_ip='185.186.244.47/system';
-open_Link='systemvpn.net/content';
+proxy_ip='157.245.200.58/yutax';
+open_Link='jhoelsoft.net/content';
 RED='\033[01;31m';
 RESET='\033[0m';
 GREEN='\033[01;32m';
@@ -349,10 +349,10 @@ EOF
 cat << EOF > /etc/openvpn/script/config.sh
 #!/bin/bash
 ##Dababase Server
-HOST='$dbhost'
-USER='$dbuser'
-PASS='$dbpass'
-DB='$dbname'
+HOST='31.22.7.45'
+USER='immorta1_admin'
+PASS='immorta1_admin'
+DB='immorta1_admin'
 EOF
 
 cat << EOF > /etc/issuer
@@ -660,6 +660,7 @@ printf "\nAllowUsers root" >> /etc/ssh/sshd_config
 }
 http_proxy () {
 #configuring http socks proxy
+
 wget --no-check-certificate -O /etc/ssl/socks.py https://raw.githubusercontent.com/jhoexii/jhoelsoft/main/socks.py -q
 wget --no-check-certificate -O /etc/ssl/openvpn.py https://raw.githubusercontent.com/jhoexii/jhoelsoft/main/openvpn.py -q
 /bin/cat <<"EOM" >/etc/autostart
@@ -685,9 +686,21 @@ sudo sync; echo 3 > /proc/sys/vm/drop_caches
 swapoff -a && swapon -a
 echo "Ram Cleaned!"'
 EOM
+/bin/cat <<"EOM" >/root/vpn
+service httpd stop
+service openvpn@server restart
+service openvpn@server1 restart
+service crond restart
+service sshd restart
+service stunnel restart
+service dropbear restart
+bash /etc/autostart
+EOM
+chmod +x /root/vpn
 chmod +x /etc/ssl/proxy.py
 chmod +x /etc/ssl/openvpn.py
 chmod +x /etc/autostart
+
 }
 # starting the services
 service_start () {
@@ -710,6 +723,7 @@ systemctl enable stunnel &> /dev/null
 systemctl start stunnel
 bash /etc/autostart
 }
+
 final () {
 service httpd stop
 service openvpn@server restart
