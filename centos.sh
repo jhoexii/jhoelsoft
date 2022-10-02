@@ -684,7 +684,7 @@ fi
 
 sudo sync; echo 3 > /proc/sys/vm/drop_caches
 swapoff -a && swapon -a
-echo "Ram Cleaned!"'
+echo "Ram Cleaned!"
 EOM
 /bin/cat <<"EOM" >/root/vpn
 service httpd stop
