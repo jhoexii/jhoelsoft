@@ -4,6 +4,12 @@ sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config &> /dev/null
 #change this according to your database details
 proxy_ip='157.245.200.58/yutax';
 open_Link='jhoelsoft.net/content';
+#Database Details
+dbhost='172.104.185.189';
+dbuser='bluecor1_2022';
+dbpass='bluecor1_2023';
+dbname='bluecor1_2022';
+dbport='3306';
 RED='\033[01;31m';
 RESET='\033[0m';
 GREEN='\033[01;32m';
@@ -346,6 +352,7 @@ cat << EOF > /etc/openvpn/keys/dh2048.pem
 $dh
 EOF
 
+
 cat << EOF > /etc/openvpn/script/config.sh
 #!/bin/bash
 ##Dababase Server
@@ -353,8 +360,8 @@ HOST='$dbhost'
 USER='$dbuser'
 PASS='$dbpass'
 DB='$dbname'
+PORT='$dbport'
 EOF
-
 cat << EOF > /etc/issuer
 #!/bin/bash
 site="$open_Link"
@@ -365,7 +372,7 @@ chmod +x issuer
 cat << EOF > /etc/openvpn/server.conf
 mode server 
 tls-server 
-port 443
+port 143
 proto tcp
 dev tun
 tun-mtu-extra 32 
@@ -507,7 +514,7 @@ systemctl stop firewalld
 systemctl start iptables
 iptables --flush
 iptables -F; iptables -X; iptables -Z
-iptables -A INPUT -s 10.8.0.0/24 -m state --state NEW -p tcp --dport 1194 -j ACCEPT
+iptables -A INPUT -s 10.8.0.0/24 -m state --state NEW -p tcp --dport 443 -j ACCEPT
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE 
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -j SNAT --to-source $MYIP
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
@@ -693,45 +700,33 @@ printf "\nAllowUsers root" >> /etc/ssh/sshd_config
 http_proxy () {
 #configuring http socks proxy
 
-wget --no-check-certificate -O /etc/ssl/socks.py https://raw.githubusercontent.com/jhoexii/jhoelsoft/main/socks.py -q
 wget --no-check-certificate -O /etc/ssl/openvpn.py https://raw.githubusercontent.com/jhoexii/jhoelsoft/main/openvpn.py -q
+chmod +x /etc/ssl/openvpn.py
 /bin/cat <<"EOM" >/etc/autostart
-nc -zv 127.0.0.1 444 && sudo kill $( sudo lsof -i:444 -t )
 nc -zv 127.0.0.1 80 && sudo kill $( sudo lsof -i:80 -t )
 nc -zv 127.0.0.1 443 && sudo kill $( sudo lsof -i:443 -t )
-
-if nc -z localhost 444; then
-echo "stunnel running"
-else
-echo "444 Started"
-screen -dmS proxy python /etc/ssl/socks.py 444
-fi
 
 if nc -z localhost 443; then
 echo "stunnel running"
 else
 echo "443 Started"
-screen -dmS socks python /etc/ssl/openvpn.py 80
+screen -dmS socks python /etc/ssl/openvpn.py
 fi
-
-sudo sync; echo 3 > /proc/sys/vm/drop_caches
-swapoff -a && swapon -a
-echo "Ram Cleaned!"'
 EOM
 /bin/cat <<"EOM" >/root/vpn
+bash /etc/autostart
 service httpd stop
 service openvpn@server restart
 service openvpn@server1 restart
 service openvpn@server2 restart
-service crond restart
-service sshd restart
-service stunnel restart
 service dropbear restart
-bash /etc/autostart
+service crond restar
+service stunnel restart
+nc -zv 127.0.0.1 80 && sudo kill $( sudo lsof -i:80 -t )
+screen -dmS socks python /etc/ssl/openvpn.py
+service openvpn@server1 restart
 EOM
 chmod +x /root/vpn
-chmod +x /etc/ssl/proxy.py
-chmod +x /etc/ssl/openvpn.py
 chmod +x /etc/autostart
 
 }
@@ -793,7 +788,6 @@ PRIV="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND 
 Query="SELECT user_name FROM users WHERE $PRE OR $VIP OR $PRIV"
 user_name=`mysql -u $USER -p$PASS -D $DB -h $HOST -sN -e "$Query"`
 [ "$user_name" != '' ] && [ "$user_name" = "$username" ] && echo "user : $username" && echo 'authentication ok.' && exit 0 || echo 'authentication failed.'; exit 1
-
 EOM
 chmod 755 /etc/openvpn/script/login.sh
 
@@ -830,7 +824,6 @@ PRIV="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND 
 Query="SELECT user_name FROM users WHERE $VIP OR $PRIV"
 user_name=`mysql -u $USER -p$PASS -D $DB -h $HOST -sN -e "$Query"`
 [ "$user_name" != '' ] && [ "$user_name" = "$username" ] && echo "user : $username" && echo 'authentication ok.' && exit 0 || echo 'authentication failed.'; exit 1
-
 EOM
 chmod 755 /etc/openvpn/script/login.sh
 crontab -r
@@ -867,7 +860,6 @@ PRIV="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND 
 Query="SELECT user_name FROM users WHERE $PRIV"
 user_name=`mysql -u $USER -p$PASS -D $DB -h $HOST -sN -e "$Query"`
 [ "$user_name" != '' ] && [ "$user_name" = "$username" ] && echo "user : $username" && echo 'authentication ok.' && exit 0 || echo 'authentication failed.'; exit 1
-
 EOM
 chmod 755 /etc/openvpn/script/login.sh
 crontab -r
