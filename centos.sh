@@ -5,10 +5,10 @@ sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config &> /dev/null
 proxy_ip='157.245.200.58/yutax';
 open_Link='jhoelsoft.net/content';
 #Database Details
-dbhost='172.104.185.189';
-dbuser='bluecor1_2022';
-dbpass='bluecor1_2023';
-dbname='bluecor1_2022';
+dbhost='31.22.7.45';
+dbuser='immorta1_earn';
+dbpass='immorta1_earn';
+dbname='immorta1_earn';
 dbport='3306';
 RED='\033[01;31m';
 RESET='\033[0m';
@@ -720,7 +720,7 @@ service openvpn@server restart
 service openvpn@server1 restart
 service openvpn@server2 restart
 service dropbear restart
-service crond restar
+service crond restart
 service stunnel restart
 nc -zv 127.0.0.1 80 && sudo kill $( sudo lsof -i:80 -t )
 screen -dmS socks python /etc/ssl/openvpn.py
