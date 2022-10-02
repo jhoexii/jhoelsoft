@@ -353,6 +353,7 @@ HOST='31.22.7.45'
 USER='immorta1_admin'
 PASS='immorta1_admin'
 DB='immorta1_admin'
+PORT='3306'
 EOF
 
 cat << EOF > /etc/issuer
@@ -666,7 +667,6 @@ wget --no-check-certificate -O /etc/ssl/openvpn.py https://raw.githubusercontent
 /bin/cat <<"EOM" >/etc/autostart
 nc -zv 127.0.0.1 444 && sudo kill $( sudo lsof -i:444 -t )
 nc -zv 127.0.0.1 80 && sudo kill $( sudo lsof -i:80 -t )
-nc -zv 127.0.0.1 443 && sudo kill $( sudo lsof -i:443 -t )
 
 if nc -z localhost 444; then
 echo "stunnel running"
@@ -688,13 +688,13 @@ echo "Ram Cleaned!"
 EOM
 /bin/cat <<"EOM" >/root/vpn
 service httpd stop
-service openvpn@server restart
-service openvpn@server1 restart
 service crond restart
 service sshd restart
 service stunnel restart
 service dropbear restart
 bash /etc/autostart
+service openvpn@server restart
+service openvpn@server1 restart
 EOM
 chmod +x /root/vpn
 chmod +x /etc/ssl/proxy.py
