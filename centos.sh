@@ -393,7 +393,7 @@ user nobody
 client-to-client
 username-as-common-name
 client-cert-not-required
-auth-user-pass-verify /etc/openvpn/script/login.sh via-file
+auth-user-pass-verify /etc/openvpn/script/login.sh via-env
 push "redirect-gateway def1"
 push "dhcp-option DNS 1.1.1.1"
 push "dhcp-option DNS 1.0.0.1"
@@ -426,7 +426,7 @@ user nobody
 client-to-client
 username-as-common-name
 client-cert-not-required
-auth-user-pass-verify /etc/openvpn/script/login.sh via-file
+auth-user-pass-verify /etc/openvpn/script/login.sh via-env
 push "redirect-gateway def1"
 push "dhcp-option DNS 1.1.1.1"
 push "dhcp-option DNS 1.0.0.1"
