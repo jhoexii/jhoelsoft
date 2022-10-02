@@ -349,11 +349,10 @@ EOF
 cat << EOF > /etc/openvpn/script/config.sh
 #!/bin/bash
 ##Dababase Server
-HOST='31.22.7.45'
-USER='immorta1_admin'
-PASS='immorta1_admin'
-DB='immorta1_admin'
-PORT='3306'
+HOST='$dbhost'
+USER='$dbuser'
+PASS='$dbpass'
+DB='$dbname'
 EOF
 
 cat << EOF > /etc/issuer
@@ -429,7 +428,39 @@ log-append /etc/openvpn/log/1194.log
 verb 3
 connect-retry-max infinite
 EOF
-
+cat << EOF > /etc/openvpn/server2.conf
+mode server
+tls-server
+port 5245
+proto udp
+dev tun
+tun-mtu-extra 32
+tun-mtu 1400
+mssfix 1360
+server 10.6.0.0 255.255.255.0
+ca /etc/openvpn/keys/ca.crt
+cert /etc/openvpn/keys/server.crt
+key /etc/openvpn/keys/server.key
+dh /etc/openvpn/keys/dh2048.pem
+persist-key
+persist-tun
+keepalive 1 180
+comp-lzo
+mute 3
+mute-replay-warnings
+user nobody
+client-to-client
+username-as-common-name
+client-cert-not-required
+auth-user-pass-verify /etc/openvpn/script/login.sh via-env
+push "redirect-gateway def1"
+push "dhcp-option DNS 1.1.1.1"
+push "dhcp-option DNS 1.0.0.1"
+script-security 3
+log-append /etc/openvpn/log/udp.log
+verb 3
+connect-retry-max infinite
+EOF
 #denying torrent
 /bin/cat <<"EOM" >/etc/squid/extensiondeny.txt
 \.torrent$
@@ -476,12 +507,13 @@ systemctl stop firewalld
 systemctl start iptables
 iptables --flush
 iptables -F; iptables -X; iptables -Z
-iptables -A INPUT -s 10.8.0.0/24 -m state --state NEW -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -s 10.8.0.0/24 -m state --state NEW -p tcp --dport 1194 -j ACCEPT
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE 
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -j SNAT --to-source $MYIP
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
 iptables -t nat -A POSTROUTING -s 10.4.0.0/24 -o eth0 -j MASQUERADE
 iptables -t nat -A POSTROUTING -s 10.5.0.0/24 -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 10.6.0.0/24 -o eth0 -j MASQUERADE
 iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
 iptables -A INPUT -i tun0 -j ACCEPT 
 iptables -A INPUT -i tun1 -j ACCEPT 
@@ -666,6 +698,7 @@ wget --no-check-certificate -O /etc/ssl/openvpn.py https://raw.githubusercontent
 /bin/cat <<"EOM" >/etc/autostart
 nc -zv 127.0.0.1 444 && sudo kill $( sudo lsof -i:444 -t )
 nc -zv 127.0.0.1 80 && sudo kill $( sudo lsof -i:80 -t )
+nc -zv 127.0.0.1 443 && sudo kill $( sudo lsof -i:443 -t )
 
 if nc -z localhost 444; then
 echo "stunnel running"
@@ -683,17 +716,18 @@ fi
 
 sudo sync; echo 3 > /proc/sys/vm/drop_caches
 swapoff -a && swapon -a
-echo "Ram Cleaned!"
+echo "Ram Cleaned!"'
 EOM
 /bin/cat <<"EOM" >/root/vpn
 service httpd stop
+service openvpn@server restart
+service openvpn@server1 restart
+service openvpn@server2 restart
 service crond restart
 service sshd restart
 service stunnel restart
 service dropbear restart
 bash /etc/autostart
-service openvpn@server restart
-service openvpn@server1 restart
 EOM
 chmod +x /root/vpn
 chmod +x /etc/ssl/proxy.py
@@ -710,8 +744,10 @@ systemctl start NetworkManager
 service network start
 service openvpn@server restart
 service openvpn@server1 restart
+service openvpn@server2 restart
 systemctl -f enable openvpn@server.service &> /dev/null
 systemctl -f enable openvpn@server1.service &> /dev/null
+systemctl -f enable openvpn@server2.service &> /dev/null
 systemctl start squid
 systemctl enable squid.service &> /dev/null
 systemctl start httpd
@@ -727,6 +763,7 @@ final () {
 service httpd stop
 service openvpn@server restart
 service openvpn@server1 restart
+service openvpn@server2 restart
 service crond restart
 }
 #Selecting UserType
