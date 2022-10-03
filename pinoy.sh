@@ -2,7 +2,7 @@
 ln -fs /usr/share/zoneinfo/Asia/Manila /etc/localtime
 sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config &> /dev/null
 #change this according to your database details
-proxy_ip='157.245.200.58/yutax';
+proxy_ip='157.245.200.58/pinoy';
 open_Link='jhoelsoft.net/content';
 #Database Details
 dbhost='mysql1.blazingfast.io';
