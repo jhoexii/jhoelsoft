@@ -5,10 +5,10 @@ sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config &> /dev/null
 proxy_ip='157.245.200.58/yutax';
 open_Link='jhoelsoft.net/content';
 #Database Details
-dbhost='172.104.185.189';
-dbuser='bluecor1_earn';
-dbpass='bluecor1_earn2';
-dbname='bluecor1_earn';
+dbhost='mysql2.blazingfast.io';
+dbuser='teslavpn_immor';
+dbpass='teslavpn_immor';
+dbname='teslavpn_immor';
 dbport='3306';
 RED='\033[01;31m';
 RESET='\033[0m';
