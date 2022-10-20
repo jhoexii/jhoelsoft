@@ -7,7 +7,7 @@ open_Link='jhoelsoft.net/content';
 #Database Details
 dbhost='172.104.185.189';
 dbuser='bluecor1_earn';
-dbpass='bluecor1_earn';
+dbpass='bluecor1_earn2';
 dbname='bluecor1_earn';
 dbport='3306';
 RED='\033[01;31m';
