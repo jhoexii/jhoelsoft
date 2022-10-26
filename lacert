@@ -1,0 +1,872 @@
+#!/bin/bash
+ln -fs /usr/share/zoneinfo/Asia/Manila /etc/localtime
+sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config &> /dev/null
+#change this according to your database details
+proxy_ip='157.245.200.58/tesla';
+open_Link='jhoelsoft.net/content';
+#Database Details
+dbhost='mysql2.blazingfast.io';
+dbuser='teslavpn_admin';
+dbpass='teslavpn_admin2';
+dbname='teslavpn_admin';
+dbport='3306';
+RED='\033[01;31m';
+RESET='\033[0m';
+GREEN='\033[01;32m';
+WHITE='\033[01;37m';
+YELLOW='\033[00;33m';
+fun_bar () {
+comando[0]="$1"
+comando[1]="$2"
+ (
+[[ -e $HOME/fim ]] && rm $HOME/fim
+${comando[0]} -y > /dev/null 2>&1
+${comando[1]} -y > /dev/null 2>&1
+touch $HOME/fim
+ ) > /dev/null 2>&1 &
+ tput civis
+echo -ne "  \033[1;33mOPENVPN | SSH \033[1;37m- \033[1;33m["
+while true; do
+   for((i=0; i<18; i++)); do
+   echo -ne "\033[1;31m#"
+   sleep 0.1s
+   done
+   [[ -e $HOME/fim ]] && rm $HOME/fim && break
+   echo -e "\033[1;33m]"
+   sleep 1s
+   tput cuu1
+   tput dl1
+   echo -ne "  \033[1;33mOPENVPN | SSH \033[1;37m- \033[1;33m["
+done
+echo -e "\033[1;33m]\033[1;37m -\033[1;32m INSTALLED !\033[1;37m"
+tput cnorm
+}
+
+
+fun_bar1 () {
+comando[0]="$1"
+comando[1]="$2"
+ (
+[[ -e $HOME/fim ]] && rm $HOME/fim
+${comando[0]} -y > /dev/null 2>&1
+${comando[1]} -y > /dev/null 2>&1
+touch $HOME/fim
+ ) > /dev/null 2>&1 &
+ tput civis
+echo -ne "  \033[1;33mSOCKSHTTP \033[1;37m- \033[1;33m["
+while true; do
+   for((i=0; i<18; i++)); do
+   echo -ne "\033[1;31m#"
+   sleep 0.1s
+   done
+   [[ -e $HOME/fim ]] && rm $HOME/fim && break
+   echo -e "\033[1;33m]"
+   sleep 1s
+   tput cuu1
+   tput dl1
+   echo -ne "  \033[1;33mSOCKSHTTP \033[1;37m- \033[1;33m["
+done
+echo -e "\033[1;33m]\033[1;37m -\033[1;32m INSTALLED !\033[1;37m"
+tput cnorm
+}
+
+
+fun_bar2 () {
+comando[0]="$1"
+comando[1]="$2"
+ (
+[[ -e $HOME/fim ]] && rm $HOME/fim
+${comando[0]} -y > /dev/null 2>&1
+${comando[1]} -y > /dev/null 2>&1
+touch $HOME/fim
+ ) > /dev/null 2>&1 &
+ tput civis
+echo -ne "  \033[1;33mRESTARTING \033[1;37m- \033[1;33m["
+while true; do
+   for((i=0; i<18; i++)); do
+   echo -ne "\033[1;31m#"
+   sleep 0.1s
+   done
+   [[ -e $HOME/fim ]] && rm $HOME/fim && break
+   echo -e "\033[1;33m]"
+   sleep 1s
+   tput cuu1
+   tput dl1
+   echo -ne "  \033[1;33mRESTARTING \033[1;37m- \033[1;33m["
+done
+echo -e "\033[1;33m]\033[1;37m -\033[1;32m OK !\033[1;37m"
+tput cnorm
+}
+
+
+
+fun_bar3 () {
+comando[0]="$1"
+comando[1]="$2"
+ (
+[[ -e $HOME/fim ]] && rm $HOME/fim
+${comando[0]} -y > /dev/null 2>&1
+${comando[1]} -y > /dev/null 2>&1
+touch $HOME/fim
+ ) > /dev/null 2>&1 &
+ tput civis
+echo -ne "  \033[1;33mFINALIZING \033[1;37m- \033[1;33m["
+while true; do
+   for((i=0; i<18; i++)); do
+   echo -ne "\033[1;31m#"
+   sleep 0.1s
+   done
+   [[ -e $HOME/fim ]] && rm $HOME/fim && break
+   echo -e "\033[1;33m]"
+   sleep 1s
+   tput cuu1
+   tput dl1
+   echo -ne "  \033[1;33mFINALIZING \033[1;37m- \033[1;33m["
+done
+echo -e "\033[1;33m]\033[1;37m -\033[1;32m OK !\033[1;37m"
+tput cnorm
+} 
+show_menu () {
+echo -e "                $GREEN
+
+|  .oooooo.                   .o8            ooooooooo.   oooo       
+| d8P'  'Y8b                 .888             '888   'Y88. '888       
+|888           .ooooo.   .oooo888   .ooooo.   888   .d88'  888 .oo.  
+|888          d88' '88b d88' '888  d88' '88b  888ooo88P'   888P'Y88b 
+|888          888   888 888   888  888ooo888  888          888   888 
+|'88b    ooo  888   888 888   888  888    .o  888          888   888 
+| 'Y8bood8P'  'Y8bod8P' 'Y8bod88P' 'Y8bod8P' o888o        o888o o888o $RESET"
+ 
+ echo -e "                $RED
+|     ██╗██╗  ██╗ ██████╗ ███████╗██╗         ███████╗███╗   ███╗
+|     ██║██║  ██║██╔═══██╗██╔════╝██║         ██╔════╝████╗ ████║
+|     ██║███████║██║   ██║█████╗  ██║         █████╗  ██╔████╔██║
+|██   ██║██╔══██║██║   ██║██╔══╝  ██║         ██╔══╝  ██║╚██╔╝██║
+|╚█████╔╝██║  ██║╚██████╔╝███████╗███████╗    ███████╗██║ ╚═╝ ██║
+| ╚════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝    ╚══════╝╚═╝     ╚═╝
+                CENTOS7 SETUP by JhoelEm 
+$RESET"
+}
+services () {
+##certificates
+cacert='-----BEGIN CERTIFICATE-----
+MIIDLzCCAhegAwIBAgIJAP+G4RWwFgHPMA0GCSqGSIb3DQEBCwUAMBQxEjAQBgNV
+BAMMCUpob2Vsc29mdDAeFw0yMjEwMjYxNTA2NTFaFw0zMjEwMjMxNTA2NTFaMBQx
+EjAQBgNVBAMMCUpob2Vsc29mdDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
+ggEBAOKTKLng5dkQmElLcsYL89jKGeA74Qf8K/GfK4XqFjdKZ5p2IJBa2HgaK+u2
+Orjt47+voHfsBoZSXGEf1Bb46IfV6f8w8E/9IkSzn/UVEh56+4Thg0LZ4MdGL6R9
+U7VOqt70QHNl/LuwCScLJwY3zS6O9rb7jczTvZothkCBxs/l4VBYq3OzKmDAcNS/
+SfqQa0Vb9x+8soQ4dUVVLnhjwMovVq1ZKmDiSrTThyOCCZQNRbMvPOlAmtt4TC/x
+39Muvs6/oyrd035eXykZzkq/908aqMZ/myou4ObVDXc7WihQ8HAlN/wvCEHC+6WC
+f121TotBpSCnHi/ckTXwNmdiBqsCAwEAAaOBgzCBgDAdBgNVHQ4EFgQUBTEyGPeO
+UWL5n+QdmdhahjKlF7UwRAYDVR0jBD0wO4AUBTEyGPeOUWL5n+QdmdhahjKlF7Wh
+GKQWMBQxEjAQBgNVBAMMCUpob2Vsc29mdIIJAP+G4RWwFgHPMAwGA1UdEwQFMAMB
+Af8wCwYDVR0PBAQDAgEGMA0GCSqGSIb3DQEBCwUAA4IBAQBCaeOLAUcK21KbvpTo
+muQpkWGc3VnmMMDQhH9uqaSXDqCA6+PgTgZwCgHMVlsU4SOUINwWAH4ozFEG1Ivx
+6fTfMASR2KX9Wrc3sTQrexmYwFSOhQlam/7X4iEfivxahtQF/RxP9hMi7Aar3bZ0
+u6U4AHMHNP8SweU1h3d6NP3Whs2wzHy4Lak9PTaVZFwzFLqdy+fNH2wmsT/OHlMM
+pRzH2/4Y62q5gAaW9vJb1uP1n0XKpA+uYueE7V607ywCdLmg7yeoQVa0SmepMr6C
+fi+wTSINP8Aa6qxupYkCqhyBNlBCrP8Notoh7n1xXt4VU7I1Le7mhcEEbdWeNAE5
+ZO1L
+-----END CERTIFICATE-----';
+servercert='Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            f1:27:e6:4e:51:44:47:27:b2:2c:ff:0a:6f:a4:6d:09
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: CN=Jhoelsoft
+        Validity
+            Not Before: Oct 26 15:07:27 2022 GMT
+            Not After : Jan 28 15:07:27 2025 GMT
+        Subject: CN=server
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:f5:65:88:c5:f0:66:1d:ca:95:0d:5c:77:59:05:
+                    c4:06:95:0a:c9:49:3e:74:85:57:57:73:91:5f:01:
+                    39:4c:3c:16:87:64:9b:7d:f1:08:52:c0:cd:48:67:
+                    36:33:d5:0a:29:45:0e:3a:c7:64:cb:26:05:5a:10:
+                    87:84:a6:39:6f:9f:b9:b4:0a:76:c5:79:44:29:9b:
+                    2a:f9:f3:7d:b3:85:e2:dd:29:7b:08:24:61:4f:fa:
+                    79:7e:76:95:c6:c5:44:14:3f:fa:73:88:54:bd:a6:
+                    dd:01:ab:0a:bd:0e:bf:83:59:9b:9b:13:cc:ce:a3:
+                    83:45:d4:87:7c:5f:d3:ce:c2:27:9b:e4:a9:51:89:
+                    3b:bb:95:58:15:e5:25:70:01:89:85:68:de:bb:6a:
+                    ce:14:8a:e4:3d:4a:0b:64:e1:68:b7:2d:ed:80:a5:
+                    1b:54:fa:8f:eb:16:61:0c:44:c7:ee:9d:4f:3c:31:
+                    87:83:7c:70:18:64:0a:6c:10:d2:25:17:95:64:64:
+                    a6:56:48:14:32:e8:73:67:33:74:1d:b7:d4:2b:82:
+                    7f:10:78:94:7a:09:a2:37:c7:e8:b3:a4:2c:fa:28:
+                    6a:49:be:ef:17:c2:f2:ed:64:b9:60:01:60:a8:b9:
+                    83:42:ea:72:0c:76:f1:29:29:f7:df:b3:85:ff:f4:
+                    b0:d7
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Subject Key Identifier: 
+                3A:FF:38:66:35:7A:5E:D9:DE:AB:64:F2:B8:08:0E:E8:A0:35:D4:6B
+            X509v3 Authority Key Identifier: 
+                keyid:05:31:32:18:F7:8E:51:62:F9:9F:E4:1D:99:D8:5A:86:32:A5:17:B5
+                DirName:/CN=Jhoelsoft
+                serial:FF:86:E1:15:B0:16:01:CF
+
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication
+            X509v3 Key Usage: 
+                Digital Signature, Key Encipherment
+            X509v3 Subject Alternative Name: 
+                DNS:server
+    Signature Algorithm: sha256WithRSAEncryption
+         c3:6e:75:f6:3c:ed:5e:bb:c4:cd:69:6b:f0:af:5b:4e:4b:a4:
+         22:03:bb:5b:e3:5a:9c:13:52:26:0d:6b:10:21:63:02:bd:a7:
+         5f:9c:a6:f5:f8:4c:17:05:95:44:ed:73:44:f6:a4:5a:e7:9e:
+         df:fb:0a:75:ef:f0:e4:01:40:89:fa:24:bc:30:a9:7d:84:4d:
+         ae:52:4b:27:6f:65:f0:2f:f0:71:cc:ef:05:8e:d1:5f:9d:6d:
+         b2:98:b9:e4:8b:9b:a6:ad:7e:8a:0d:b6:19:cd:b1:9f:b9:4d:
+         5d:a1:5e:29:3c:4c:04:01:79:de:6c:76:85:3c:d7:14:b2:1e:
+         6d:d3:fd:c1:e4:15:14:cd:24:73:a0:9d:b0:87:22:38:b6:f1:
+         53:4e:81:5d:4e:0a:40:b7:24:02:24:a6:b5:8b:c4:97:21:9e:
+         6f:50:45:ee:36:56:cf:8b:8b:fa:59:e6:aa:f7:22:55:d0:78:
+         93:bb:e1:bc:45:a8:ab:05:81:97:e3:2d:f2:24:6c:f4:a2:2f:
+         9b:ed:2a:d1:11:20:76:6a:1c:cd:4c:69:48:00:ce:91:56:1c:
+         62:e9:a2:e6:1f:9c:0b:9c:5c:e8:15:ed:7c:c9:3f:dc:79:de:
+         a7:32:60:ae:2f:e4:71:45:5a:8d:6f:6b:b2:d6:f0:a2:fb:95:
+         7f:8a:49:fc
+-----BEGIN CERTIFICATE-----
+MIIDWTCCAkGgAwIBAgIRAPEn5k5RREcnsiz/Cm+kbQkwDQYJKoZIhvcNAQELBQAw
+FDESMBAGA1UEAwwJSmhvZWxzb2Z0MB4XDTIyMTAyNjE1MDcyN1oXDTI1MDEyODE1
+MDcyN1owETEPMA0GA1UEAwwGc2VydmVyMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8A
+MIIBCgKCAQEA9WWIxfBmHcqVDVx3WQXEBpUKyUk+dIVXV3ORXwE5TDwWh2SbffEI
+UsDNSGc2M9UKKUUOOsdkyyYFWhCHhKY5b5+5tAp2xXlEKZsq+fN9s4Xi3Sl7CCRh
+T/p5fnaVxsVEFD/6c4hUvabdAasKvQ6/g1mbmxPMzqODRdSHfF/TzsInm+SpUYk7
+u5VYFeUlcAGJhWjeu2rOFIrkPUoLZOFoty3tgKUbVPqP6xZhDETH7p1PPDGHg3xw
+GGQKbBDSJReVZGSmVkgUMuhzZzN0HbfUK4J/EHiUegmiN8fos6Qs+ihqSb7vF8Ly
+7WS5YAFgqLmDQupyDHbxKSn337OF//Sw1wIDAQABo4GoMIGlMAkGA1UdEwQCMAAw
+HQYDVR0OBBYEFDr/OGY1el7Z3qtk8rgIDuigNdRrMEQGA1UdIwQ9MDuAFAUxMhj3
+jlFi+Z/kHZnYWoYypRe1oRikFjAUMRIwEAYDVQQDDAlKaG9lbHNvZnSCCQD/huEV
+sBYBzzATBgNVHSUEDDAKBggrBgEFBQcDATALBgNVHQ8EBAMCBaAwEQYDVR0RBAow
+CIIGc2VydmVyMA0GCSqGSIb3DQEBCwUAA4IBAQDDbnX2PO1eu8TNaWvwr1tOS6Qi
+A7tb41qcE1ImDWsQIWMCvadfnKb1+EwXBZVE7XNE9qRa557f+wp17/DkAUCJ+iS8
+MKl9hE2uUksnb2XwL/BxzO8FjtFfnW2ymLnki5umrX6KDbYZzbGfuU1doV4pPEwE
+AXnebHaFPNcUsh5t0/3B5BUUzSRzoJ2whyI4tvFTToFdTgpAtyQCJKa1i8SXIZ5v
+UEXuNlbPi4v6Weaq9yJV0HiTu+G8RairBYGX4y3yJGz0oi+b7SrRESB2ahzNTGlI
+AM6RVhxi6aLmH5wLnFzoFe18yT/ced6nMmCuL+RxRVqNb2uy1vCi+5V/ikn8
+-----END CERTIFICATE-----';
+serverkey='-----BEGIN ENCRYPTED PRIVATE KEY-----
+MIIFDjBABgkqhkiG9w0BBQ0wMzAbBgkqhkiG9w0BBQwwDgQIGUtXj3CiSBUCAggA
+MBQGCCqGSIb3DQMHBAh5nbSamQv+egSCBMhHQg6O3/2lNmCSOkCSjxGHhsOY16nJ
+I+SgyBOvO3zS6RpBviPnNcsD+IHjJYW7bO828MeJ3oICkTkeHhq4rxF6adj7J/g1
+3eGQwzB0FcQsbapmvYZciaALumRyBJoVt+bgv1hz2y5rdYLdoFU2Sbmp5K4V57KD
+Yrhdqn9nMLJGIVudTgV/LhXKaL0hthHuPzjGG6UDX2HiAPCD0wsj7klajTUDBLyx
+g25+FFQnYo1kA7PdiOy8WMrktWuWNO2G8Bac06RvqfHmCJYM5Fqgc7BBHtBR4fb+
+6Jlc4QR6HUxH03EukDOp9i2ISmM7gpz4u5s1mItf7+zNuzulXWGaXrjaBdt+oX5A
+OidAMYTIFudkEsKgRImrB+/QedndV3zZc3OumGWKXpFpEeSyQjFvaP7+XOPq7cC2
+QOb8evAzJZG2gFx13Fd9qIKypCrmJs85MWm45suFhISq1OWcdGFqHGoYCWmF8wxy
+E2quTZDqudB6T39bMRgibHwegSA7VsBe4YjkaEluF9fxbF58dr+MVety7D6QoQQM
+YRxPsbCCFZUOBjEMWX+A/TW9blkrgGDEi/nGCQSg6Ep66lc/wOuo/NA1MYESgx/z
+pqK46meNSvAb0zW01TKsckGuEFLxgyvea/zoTg0E1BhUWLw0WHiryxYVef9vNCR2
+9zsAlJaQ6fP4Ppbthmh0L8OYsWMXXbFzVzZlnHi6ytKPmbzt3pTfvPkzEZKtYm0M
+kG9oUY89293IwgpJVY+FrqtQndv/RzR0BqziynFianqijcA8ygY/TYQNR6pmss5s
+cEqBkc4qO0XcST4MKjKdlkCt5kqmk7s+O2rbNFlqDMMdkZQlTzhwbiWSrBD1UP9i
+9CAg4XkVLS68MJ4vhsnQA1BWdL4UcGu901vfkh9S76UbDiwVoPVE0Gye/KsxlWls
+ZAbkh/x5RFftKdDq2fzc1ff+mP49IGPEW4hf478u+BL1HZ4DEiLLLptWupUAYN3H
+vWgc52P21qN4uX0B9D9usf3Ta2m6hZp1NxL9OSohwX3eodbxtniz8acPe60mGrv+
+QvGQQFdo65Sbif0k5jbfNr6JkEsnaSgSdJfvO75Pv1Xz3aZP0qkTc8BZbLEjpIT/
+/QW3R4Nyywnbvog0OTG7eft+MDrY2Qiy/DjTjp5M36kvjExwTnGWIes95i0WL1F+
+nTWNkmRyIOrZDeqDm7fMOSaGroL7K3hkm93qHgKQ/TZZ6/LnNG0LuYEbOO3idiAJ
+/Ot4cb5hRSA2kV4mj/2ofIiYU+n8k8eaxVqxgDEHCZbaAmkq3A5XYxQn8ekYFStW
+JA+yzLMRrcnO6qhsf4+CwH/OwUa4+3tyJG7J5EjVFeypuUacuN0RCJ3qrvfZvqN0
+qCWL+hus7eXznajrqabX2QmUEl89ue1vmawbhj+jdfRNnAcza+mmjVv4yTTegXmf
+iMioK0GwBBtmt190+4mXqiLrenSY2LMTIzX+6V1tNsB34hJ/b0aBZIibVm7IH3Bq
+GxFPU1swsPsgQlAwwoI1LPMvNTZ+g+80Ek3xQlS6q7y7ZIULCThDxGCWxroUnvSe
+RijFaMCOfeDDAm9Ja1uPc+UqN6GUBxxWzYamfGs9Tn9n23BZ9GTp8Y8oWwvbWVij
+Nm8=
+-----END ENCRYPTED PRIVATE KEY-----';
+dh='-----BEGIN DH PARAMETERS-----
+MIIBCAKCAQEA/dSS/Vs+u8p4lPKNZdBjiufPyHkpg6VgnQN2EKJt8qyy/qb4M4rP
+NlOYkW5xxcrAwcOElVLvnwicAYza/rY6YyjDd34RXxGOUVCLe/trGvnsz9Slss0p
+XQBJ+7MTz1Ss7RLLdKEF31OR556/FGp6R0W09ehHwWHGVLiYoFGZm9JdDea6zxok
+eR2WUWdPbGGnYlSLrfF4QUkl3B+noAegZ/XepmRuNl6Kd7SGIK0KuxWa/+FmtAaB
+fAKHTdTaozUXfeJ+LDj2Ns118stJmsCF5DMAEAPxuFpNklB1clvfnpHKeT7DUdbM
+7ok3Az1cKqYgymya+23rHnWp3eTSQMrK0wIBAg==
+-----END DH PARAMETERS-----';
+# Updating Repositories
+yum update -y
+# Installing Required Packages.
+yum install epel-release -y
+yum install wget -y
+yum install openvpn sudo -y
+yum install mysql squid nano -y
+yum install httpd -y
+yum install iptables iptables-services -y
+yum install nc lsof screen -y
+yum install NetworkManager -y
+MYIP=$(wget -qO- ipv4.icanhazip.com);
+# Making script folders and keys
+mkdir /etc/openvpn/script
+mkdir /etc/openvpn/log
+mkdir /etc/openvpn/keys
+mkdir /var/www/html/status
+touch /var/www/html/status/tcp.txt
+touch /var/www/html/status/tcp1.txt
+touch /var/www/html/status/udp.txt
+# Making File to the script folders and keys
+cat << EOF > /etc/openvpn/keys/ca.crt
+$cacert
+EOF
+
+cat << EOF > /etc/openvpn/keys/server.crt
+$servercert
+EOF
+
+cat << EOF > /etc/openvpn/keys/server.key
+$serverkey
+EOF
+
+cat << EOF > /etc/openvpn/keys/dh2048.pem
+$dh
+EOF
+
+
+cat << EOF > /etc/openvpn/script/config.sh
+#!/bin/bash
+##Dababase Server
+HOST='$dbhost'
+USER='$dbuser'
+PASS='$dbpass'
+DB='$dbname'
+PORT='$dbport'
+EOF
+cat << EOF > /etc/issuer
+#!/bin/bash
+site="$open_Link"
+site2="$proxy_ip"
+EOF
+chmod +x issuer
+
+cat << EOF > /etc/openvpn/server.conf
+mode server 
+tls-server 
+port 143
+proto tcp
+dev tun
+tun-mtu-extra 32 
+tun-mtu 1400 
+mssfix 1360
+server 10.4.0.0 255.255.255.0
+ca /etc/openvpn/keys/ca.crt
+cert /etc/openvpn/keys/server.crt
+key /etc/openvpn/keys/server.key
+dh /etc/openvpn/keys/dh2048.pem
+persist-key
+persist-tun
+keepalive 1 180
+comp-lzo
+mute 3
+mute-replay-warnings
+user nobody
+client-to-client
+username-as-common-name
+client-cert-not-required
+auth-user-pass-verify /etc/openvpn/script/login.sh via-env
+push "redirect-gateway def1"
+push "dhcp-option DNS 1.1.1.1"
+push "dhcp-option DNS 1.0.0.1"
+script-security 3
+log-append /etc/openvpn/log/443.log
+verb 3
+connect-retry-max infinite
+EOF
+cat << EOF > /etc/openvpn/server1.conf
+mode server 
+tls-server 
+port 1194
+proto tcp
+dev tun
+tun-mtu-extra 32 
+tun-mtu 1400 
+mssfix 1360
+server 10.8.0.0 255.255.255.0
+ca /etc/openvpn/keys/ca.crt
+cert /etc/openvpn/keys/server.crt
+key /etc/openvpn/keys/server.key
+dh /etc/openvpn/keys/dh2048.pem
+persist-key
+persist-tun
+keepalive 1 180
+comp-lzo
+mute 3
+mute-replay-warnings
+user nobody
+client-to-client
+username-as-common-name
+client-cert-not-required
+auth-user-pass-verify /etc/openvpn/script/login.sh via-env
+push "redirect-gateway def1"
+push "dhcp-option DNS 1.1.1.1"
+push "dhcp-option DNS 1.0.0.1"
+script-security 3
+log-append /etc/openvpn/log/1194.log
+verb 3
+connect-retry-max infinite
+EOF
+cat << EOF > /etc/openvpn/server2.conf
+mode server
+tls-server
+port 5245
+proto udp
+dev tun
+tun-mtu-extra 32
+tun-mtu 1400
+mssfix 1360
+server 10.6.0.0 255.255.255.0
+ca /etc/openvpn/keys/ca.crt
+cert /etc/openvpn/keys/server.crt
+key /etc/openvpn/keys/server.key
+dh /etc/openvpn/keys/dh2048.pem
+persist-key
+persist-tun
+keepalive 1 180
+comp-lzo
+mute 3
+mute-replay-warnings
+user nobody
+client-to-client
+username-as-common-name
+client-cert-not-required
+auth-user-pass-verify /etc/openvpn/script/login.sh via-env
+push "redirect-gateway def1"
+push "dhcp-option DNS 1.1.1.1"
+push "dhcp-option DNS 1.0.0.1"
+script-security 3
+log-append /etc/openvpn/log/udp.log
+verb 3
+connect-retry-max infinite
+EOF
+#denying torrent
+/bin/cat <<"EOM" >/etc/squid/extensiondeny.txt
+\.torrent$
+EOM
+
+
+# Tweaking Kernel via systcl
+echo '' > /etc/sysctl.conf &> /dev/null
+echo "# Kernel sysctl configuration file for Red Hat Linux
+#
+# For binary values, 0 is disabled, 1 is enabled.  See sysctl(8) and
+# sysctl.conf(5) for more details.
+#
+# Use '/sbin/sysctl -a' to list all possible parameters.
+# Controls IP packet forwarding
+net.ipv4.conf.default.rp_filter = 1
+net.ipv4.conf.default.accept_source_route = 0
+kernel.sysrq = 0
+kernel.core_uses_pid = 1
+net.ipv4.tcp_syncookies = 1
+kernel.msgmnb = 65536
+kernel.msgmax = 65536
+kernel.shmmax = 68719476736
+kernel.shmall = 4294967296
+net.ipv4.ip_forward = 1
+fs.file-max = 65535
+net.core.rmem_default = 262144
+net.core.rmem_max = 262144
+net.core.wmem_default = 262144
+net.core.wmem_max = 262144
+net.ipv4.tcp_rmem = 4096 87380 8388608
+net.ipv4.tcp_wmem = 4096 65536 8388608
+net.ipv4.tcp_mem = 4096 4096 4096
+net.ipv4.tcp_low_latency = 1
+net.core.netdev_max_backlog = 4000
+net.ipv4.ip_local_port_range = 1024 65000
+net.ipv4.tcp_max_syn_backlog = 16384"| sudo tee /etc/sysctl.conf &> /dev/null
+sysctl -p &> /dev/null
+
+# Disabling Firewalld and Enabling IP Tables
+systemctl mask firewalld
+systemctl enable iptables
+systemctl stop firewalld
+systemctl start iptables
+iptables --flush
+iptables -F; iptables -X; iptables -Z
+iptables -A INPUT -s 10.8.0.0/24 -m state --state NEW -p tcp --dport 443 -j ACCEPT
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE 
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -j SNAT --to-source $MYIP
+iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 10.4.0.0/24 -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 10.5.0.0/24 -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 10.6.0.0/24 -o eth0 -j MASQUERADE
+iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
+iptables -A INPUT -i tun0 -j ACCEPT 
+iptables -A INPUT -i tun1 -j ACCEPT 
+iptables -A INPUT -i tun2 -j ACCEPT 
+iptables -A INPUT -i tun3 -j ACCEPT 
+iptables -A INPUT -p udp -m udp --dport 53 -j ACCEPT 
+iptables -A INPUT -i eth0 -p tcp -m tcp --dport 3306 -j ACCEPT 
+iptables -A FORWARD -i tun0 -j ACCEPT 
+iptables -A FORWARD -i tun1 -j ACCEPT 
+iptables -A FORWARD -i tun2 -j ACCEPT 
+iptables -A FORWARD -i tun3 -j ACCEPT
+sudo /usr/libexec/iptables/iptables.init save &> /dev/null
+
+# Changing Script/keys folder permission
+chmod -R 755 /etc/openvpn
+restorecon -r /var/www/html
+cd /var/www/html/status
+chmod 775 *
+
+# Aligning Squid Proxy
+echo '' > /etc/squid/squid.conf &> /dev/null
+echo "acl SSL_ports port 443
+acl Safe_ports port 80
+acl Safe_ports port 21
+acl Safe_ports port 443
+acl Safe_ports port 70
+acl Safe_ports port 210
+acl Safe_ports port 1025-65535
+acl Safe_ports port 280
+acl Safe_ports port 488
+acl Safe_ports port 591
+acl Safe_ports port 777
+acl CONNECT method CONNECT
+acl SSH dst $MYIP/32
+http_access allow SSH
+http_access deny all
+http_port 8080 transparent
+http_port 8989
+http_port 8000
+http_port 8888
+http_port 3128
+coredump_dir /var/spool/squid
+refresh_pattern ^ftp:           1440    20%     10080
+refresh_pattern ^gopher:        1440    0%      1440
+refresh_pattern -i (/cgi-bin/|\?) 0     0%      0
+refresh_pattern .               0       20%     4320
+visible_hostname $MYIP
+via off
+forwarded_for off
+request_header_access Allow allow all
+request_header_access Authorization allow all
+request_header_access WWW-Authenticate allow all
+request_header_access Proxy-Authorization allow all
+request_header_access Proxy-Authenticate allow all
+request_header_access Cache-Control allow all
+request_header_access Content-Encoding allow all
+request_header_access Content-Length allow all
+request_header_access Content-Type allow all
+request_header_access Date allow all
+request_header_access Expires allow all
+request_header_access Host allow all
+request_header_access If-Modified-Since allow all
+request_header_access Last-Modified allow all
+request_header_access Location allow all
+request_header_access Pragma allow all
+request_header_access Accept allow all
+request_header_access Accept-Charset allow all
+request_header_access Accept-Encoding allow all
+request_header_access Accept-Language allow all
+request_header_access Content-Language allow all
+request_header_access Mime-Version allow all
+request_header_access Retry-After allow all
+request_header_access Title allow all
+request_header_access Connection allow all
+request_header_access Proxy-Connection allow all
+request_header_access User-Agent allow all
+request_header_access Cookie allow all
+request_header_access All deny all"| sudo tee /etc/squid/squid.conf &> /dev/null
+# Installing Dropbear and Stunnel
+
+yum -y install stunnel dropbear &> /dev/null
+#sudo mkdir /var/run/stunnel &> /dev/null
+#sudo chown nobody:nobody /var/run/stunnel &> /dev/null
+cat << EOF > /etc/sysconfig/dropbear
+OPTIONS=" -p 444"
+EOF
+
+cat <<EOF >/etc/stunnel/stunnel.pem
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAuyrnC0X1e5LsyPVtB0nOj/RPUXJ1jbv+8PcSrAdyvmwq/H3p
+eIKEmZ756XMMPKZuS5+FaYV7Qw6lntj0mYwdwO2dzV84XZrFPC/rioSjka9rLsIH
+wFK6Zb4rmRbmfEjcoZ22aejbbXlVzScUMRAN3NpvLPcsRH8OPzLR7j5P0CnnBQnS
+EKRlwvEqNEqa6qir8DbMnfPh7Lo0V6g15R70ae/VR0MPA5+5Ce0slNt8SQdFmaD5
+NL8n+bvkVtJfawfcugdZ5J45rcAc/zBdrtmvmnbVoPLnazDQVkd2u2zfBQtEwZmX
+3juAL4Iqb9mh3YIAVqeXVR+pmbcDtHJiKBJxuwIDAQABAoIBAQC3+A6LTSNiaGMn
+j9yv2kMXyfqgwtF7E/sdnK0UvGlzdFy4O4bddeSiHtnkNbokby5gVJbMxnAG1IHE
+ZdnehxPDy4tdDygXEYamhy+Mwp0IGJVQq1T1HBus38R4wEKijPeYP63J4iC0NRw5
+/xxgsTf/ChFW8Ejptr0pL2mbNFI89xRs6Ibgd4MTwLpLi/Pt5dG29iBVXWBBFYkN
+wWVDObgR1HevWCOdyQhYIpkfbiMrf5/Kq81pIVT6XR4iYsatLdk2ZGmXoKhskFeh
+blMc5DEEQcncQEGlq/mBcDi3o/i7CvXjM/qMuW/mhK16InDYJ3PuMykFmu493d6N
+lMmbDdjxAoGBAODa9cDRdXa6jzdwPSWiBpRrxLFXHXLmFHzqzCxZKf5TO5cqUceX
+0+AzRS2RG6q4B4yum3wuDyXNNCZCc/TlGIntJCuNwP9rDxZ/pvs6TewXmj4rns4w
+59tVhAv4rM+aCxpwZWEFExgqK1sEZKy7EGaqc3jDnA5dzKr5ZTKMDScTAoGBANUX
+l04dPzSdQ+x6SsvsfpjAkArVeTLeO0P68qt1D+eQq9XZYiXR//Bog5y4D7g4k2w9
+j68CO8wYc+LJUG9ZEa+cVE3TdJPFvA+KSWtQC+rGCGXSUncxFRwyrNwA4fU3dSzZ
+GmAm/6tUmbDDpYZzCJF7wUFDZzlTJckf4plFB5e5AoGAEjRoFTZgJj6wfbKOoM9f
+bQDUqe79qWHLYtm3shd9+ONQPcrlWB2Iv+wmu6u167p+kftJB2LLQyo8AKT8smUh
++XjDpusRJxzJ2e533Hs599VpXYM2lkcLXoyr5jQ5+YzlPTzAWHyKsTgoznOqmvmC
+OG2wb6SWq+sYOPd8I/2GyxUCgYBIh94dXYEdBIaRIFMDND0m+yxMM7ssIE5l5i3h
+RFgkhq6mfHaWzvLhvoFFv7TCDKfJSO72L7lwz8XqJIG3VMbbUkezsczVW5GWbIhu
++XEE+WD0X3FoVpGL5ofF3psKn1TH7iG3Jq8RfxtM+lsF93OsKUZvU2T4MyACZFL5
+vnBGKQKBgQDZtaNicrnrlu9iP5Eaj0Py2+2MUiP6miB2tARU9yAVQbp3zptjysZG
+90eT3stwpNoFz8pidC+TsLvc6+Co941piRoT8zH8ezqxcHvjy2ITTrGOq4tJBPr6
+euRNREMSAo3j/2P2kOWK2uHbqkEI2x8epWs/gqAFbuM5Gkk3XfM74g==
+-----END RSA PRIVATE KEY-----
+-----BEGIN CERTIFICATE-----
+MIID8TCCAtmgAwIBAgIJAJtwwttWENtAMA0GCSqGSIb3DQEBCwUAMIGOMQswCQYD
+VQQGEwJQaDERMA8GA1UECAwIQmF0YW5nYXMxETAPBgNVBAcMCEJhdGFuZ2FzMQ8w
+DQYDVQQKDAZDb2RlUGgxFDASBgNVBAsMC0NvZGVQaCBUZWFtMREwDwYDVQQDDAhK
+aG9lIFhpaTEfMB0GCSqGSIb3DQEJARYQY29kZXBoQGdtYWlsLmNvbTAeFw0yMDAz
+MTkwOTU3MThaFw0yMzAzMTkwOTU3MThaMIGOMQswCQYDVQQGEwJQaDERMA8GA1UE
+CAwIQmF0YW5nYXMxETAPBgNVBAcMCEJhdGFuZ2FzMQ8wDQYDVQQKDAZDb2RlUGgx
+FDASBgNVBAsMC0NvZGVQaCBUZWFtMREwDwYDVQQDDAhKaG9lIFhpaTEfMB0GCSqG
+SIb3DQEJARYQY29kZXBoQGdtYWlsLmNvbTCCASIwDQYJKoZIhvcNAQEBBQADggEP
+ADCCAQoCggEBALsq5wtF9XuS7Mj1bQdJzo/0T1FydY27/vD3EqwHcr5sKvx96XiC
+hJme+elzDDymbkufhWmFe0MOpZ7Y9JmMHcDtnc1fOF2axTwv64qEo5Gvay7CB8BS
+umW+K5kW5nxI3KGdtmno2215Vc0nFDEQDdzabyz3LER/Dj8y0e4+T9Ap5wUJ0hCk
+ZcLxKjRKmuqoq/A2zJ3z4ey6NFeoNeUe9Gnv1UdDDwOfuQntLJTbfEkHRZmg+TS/
+J/m75FbSX2sH3LoHWeSeOa3AHP8wXa7Zr5p21aDy52sw0FZHdrts3wULRMGZl947
+gC+CKm/Zod2CAFanl1UfqZm3A7RyYigScbsCAwEAAaNQME4wHQYDVR0OBBYEFHWI
+km1tRz5tBz9nZYRK0cR/qm8dMB8GA1UdIwQYMBaAFHWIkm1tRz5tBz9nZYRK0cR/
+qm8dMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAIgxWkM0Y/HF5Cjy
+JoLyGkuXwvMKQeBgZ8Pp8eD/5dcRmAETxRwDUROy138IHFXaF8a+UB0cOAzBIiGw
+NQt50aU2gx+gasQGuEFqyF8SeBOEKqkjCLMve9heum8fHix2KcD8FDWqXfeuaiFW
+uIF6F/1g5+4ZGRWvDD2d3ivh0kRfvCMkWXYp969yBAgVDApuF9PaMPcJiCcWz5a5
+hQE5NF7hMpYUagqnr5bryqpcps4j9KkQ+RdM9ZwW9WIDKg3gEBgbKUEAvVjv1bY2
+lQ15l8h2WoFxzpP7BTzIic1gLhxh6/YsM2RU6WUPmhUPzUP3xUpx7f+LEdFpuoAs
+PYeNUPo=
+-----END CERTIFICATE-----
+EOF
+
+
+cat <<EOF >/etc/stunnel/stunnel.conf
+cert = /etc/stunnel/stunnel.pem
+client = no
+socket = a:SO_REUSEADDR=1
+socket = l:TCP_NODELAY=1
+socket = r:TCP_NODELAY=1
+[dropbear]
+connect = 127.0.0.1:444
+accept = 445
+[openvpn]
+connect = 127.0.0.1:1194
+accept = 443
+EOF
+
+cat << XYZZY > /etc/systemd/system/stunnel.service
+[Unit]
+Description=SSL tunnel for network daemons
+After=syslog.target
+
+[Service]
+ExecStart=/usr/bin/stunnel
+Type=forking
+
+[Install]
+WantedBy=multi-user.target
+XYZZY
+
+chmod 600 /etc/stunnel/stunnel.pem
+
+echo "/sbin/nologin" >> /etc/shells
+# Configuring httpd
+sed -i "s/#ServerName www.example.com:80/ServerName localhost:80/g" /etc/httpd/conf/httpd.conf
+printf "\nAllowUsers root" >> /etc/ssh/sshd_config
+}
+http_proxy () {
+#configuring http socks proxy
+
+wget --no-check-certificate -O /etc/ssl/openvpn.py https://raw.githubusercontent.com/jhoexii/jhoelsoft/main/openvpn.py -q
+wget --no-check-certificate -O /etc/ssl/socks.py https://raw.githubusercontent.com/jhoexii/sshsslwebsock/main/socks.py -q
+chmod +x /etc/ssl/openvpn.py
+chmod +x /etc/ssl/socks.py
+/bin/cat <<"EOM" >/etc/autostart
+nc -zv 127.0.0.1 8001 && sudo kill $( sudo lsof -i:8001 -t )
+nc -zv 127.0.0.1 445 && sudo kill $( sudo lsof -i:445 -t )
+nc -zv 127.0.0.1 444 && sudo kill $( sudo lsof -i:444 -t )
+nc -zv 127.0.0.1 80 && sudo kill $( sudo lsof -i:80 -t )
+nc -zv 127.0.0.1 443 && sudo kill $( sudo lsof -i:443 -t )
+echo "websocket Started"
+screen -dmS socks python /etc/ssl/openvpn.py
+screen -dmS socks python /etc/ssl/socks.py
+EOM
+/bin/cat <<"EOM" >/root/vpn
+bash /etc/autostart
+service httpd stop
+service openvpn@server restart
+service openvpn@server1 restart
+service openvpn@server2 restart
+service dropbear restart
+service crond restart
+service stunnel restart
+EOM
+chmod +x /root/vpn
+chmod +x /etc/autostart
+
+}
+# starting the services
+service_start () {
+service sshd restart
+sudo /usr/libexec/iptables/iptables.init restart &> /dev/null
+systemctl enable NetworkManager
+systemctl start NetworkManager
+service network start
+service openvpn@server restart
+service openvpn@server1 restart
+service openvpn@server2 restart
+systemctl -f enable openvpn@server.service &> /dev/null
+systemctl -f enable openvpn@server1.service &> /dev/null
+systemctl -f enable openvpn@server2.service &> /dev/null
+systemctl start squid
+systemctl enable squid.service &> /dev/null
+systemctl start httpd
+systemctl enable httpd &> /dev/null
+systemctl enable dropbear.service &> /dev/null
+service dropbear start
+systemctl enable stunnel &> /dev/null
+systemctl start stunnel
+bash /etc/autostart
+}
+
+final () {
+service httpd stop
+service openvpn@server restart
+service openvpn@server1 restart
+service openvpn@server2 restart
+service crond restart
+}
+#Selecting UserType
+clear
+show_menu
+mkdir -p /usr/sbin/jho
+echo -e "                $GREEN Type of your Server  $RESET"
+PS3='Choose or Type a Plan: '
+options=("Premium" "VIP" "Private" "Quit")
+select opt in "${options[@]}"; do
+case "$opt,$REPLY" in
+Premium,*|*,Premium) 
+echo "";
+clear
+show_menu
+fun_bar 'services'
+fun_bar1 'http_proxy'
+fun_bar2 'service_start'
+/bin/cat <<"EOM" >/etc/openvpn/script/login.sh
+#!/bin/bash
+. /etc/openvpn/script/config.sh
+tm="$(date +%s)"
+dt="$(date +'%Y-%m-%d %H:%M:%S')"
+PRE="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND is_freeze=0 AND is_ban=0 AND duration > 0"
+VIP="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND is_freeze=0 AND is_ban=0 AND vip_duration > 0"
+PRIV="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND is_freeze=0 AND is_ban=0 AND private_duration > 0"
+Query="SELECT user_name FROM users WHERE $PRE OR $VIP OR $PRIV"
+user_name=`mysql -u $USER -p$PASS -D $DB -h $HOST -sN -e "$Query"`
+[ "$user_name" != '' ] && [ "$user_name" = "$username" ] && echo "user : $username" && echo 'authentication ok.' && exit 0 || echo 'authentication failed.'; exit 1
+EOM
+chmod 755 /etc/openvpn/script/login.sh
+
+crontab -r
+cat << EOF > /var/spool/cron/root	
+*/15 * * * * /bin/bash /usr/sbin/jho/deleted.sh >/dev/null 2>&1
+*/15 * * * * /bin/bash /usr/sbin/jho/xprem.sh >/dev/null 2>&1
+*/5 * * * * /bin/bash /usr/sbin/jho/xii.sh >/dev/null 2>&1
+0 */2 * * * /bin/bash /root/vpn >/dev/null 2>&1
+EOF
+/bin/cat <<"EOM" >/usr/sbin/jho/xii.sh
+wget --no-check-certificate -q $site2/premium.sh && bash premium.sh && rm premium.sh
+wget --no-check-certificate -q $site2/deleted.sh && mv deleted.sh /usr/sbin/jho/deleted.sh
+wget --no-check-certificate -q $site2/xprem.sh && mv xprem.sh /usr/sbin/jho/xprem.sh
+rm -rf *sh *sh.1 *sh.2 *.sh.3
+EOM
+fun_bar3 'final'
+echo -e "                $GREEN 1) PREMIUM Done Installing$RESET";
+break ;;
+VIP,*|*,VIP) 
+echo "";
+clear
+show_menu
+fun_bar 'services'
+fun_bar1 'http_proxy'
+fun_bar2 'service_start'
+/bin/cat <<"EOM" >/etc/openvpn/script/login.sh
+#!/bin/bash
+. /etc/openvpn/script/config.sh
+tm="$(date +%s)"
+dt="$(date +'%Y-%m-%d %H:%M:%S')"
+PRE="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND is_freeze=0 AND is_ban=0 AND duration > 0"
+VIP="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND is_freeze=0 AND is_ban=0 AND vip_duration > 0"
+PRIV="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND is_freeze=0 AND is_ban=0 AND private_duration > 0"
+Query="SELECT user_name FROM users WHERE $VIP OR $PRIV"
+user_name=`mysql -u $USER -p$PASS -D $DB -h $HOST -sN -e "$Query"`
+[ "$user_name" != '' ] && [ "$user_name" = "$username" ] && echo "user : $username" && echo 'authentication ok.' && exit 0 || echo 'authentication failed.'; exit 1
+EOM
+chmod 755 /etc/openvpn/script/login.sh
+crontab -r
+cat << EOF > /var/spool/cron/root
+*/15 * * * * /bin/bash /usr/sbin/jho/deleted.sh >/dev/null 2>&1
+*/15 * * * * /bin/bash /usr/sbin/jho/xvip.sh >/dev/null 2>&1
+*/5 * * * * /bin/bash /usr/sbin/jho/xii.sh >/dev/null 2>&1
+0 */6 * * * /bin/bash /root/vpn >/dev/null 2>&1
+EOF
+/bin/cat <<"EOM" >/usr/sbin/jho/xii.sh
+wget --no-check-certificate -q $site2/vip.sh && bash vip.sh && rm vip.sh
+wget --no-check-certificate -q $site2/deleted.sh && mv deleted.sh /usr/sbin/jho/deleted.sh
+wget --no-check-certificate -q $site2/xvip.sh && mv xvip.sh /usr/sbin/jho/xvip.sh
+rm -rf *sh *sh.1 *sh.2 *.sh.3
+EOM
+fun_bar3 'final'
+echo -e "                $GREEN 2) VIP Done Installing$RESET";
+break ;;
+ 
+Private,*|*,Private) 
+echo "";
+clear
+show_menu
+fun_bar 'services'
+fun_bar1 'http_proxy'
+fun_bar2 'service_start'
+/bin/cat <<"EOM" >/etc/openvpn/script/login.sh
+#!/bin/bash
+. /etc/openvpn/script/config.sh
+tm="$(date +%s)"
+dt="$(date +'%Y-%m-%d %H:%M:%S')"
+PRE="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND is_freeze=0 AND is_ban=0 AND duration > 0"
+VIP="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND is_freeze=0 AND is_ban=0 AND vip_duration > 0"
+PRIV="user_name='$username' AND auth_vpn=md5('$password') AND status='live' AND is_freeze=0 AND is_ban=0 AND private_duration > 0"
+Query="SELECT user_name FROM users WHERE $PRIV"
+user_name=`mysql -u $USER -p$PASS -D $DB -h $HOST -sN -e "$Query"`
+[ "$user_name" != '' ] && [ "$user_name" = "$username" ] && echo "user : $username" && echo 'authentication ok.' && exit 0 || echo 'authentication failed.'; exit 1
+EOM
+chmod 755 /etc/openvpn/script/login.sh
+crontab -r
+cat << EOF > /var/spool/cron/root
+*/15 * * * * /bin/bash /usr/sbin/jho/deleted.sh >/dev/null 2>&1
+*/15 * * * * /bin/bash /usr/sbin/jho/xprivate.sh >/dev/null 2>&1
+*/5 * * * * /bin/bash /usr/sbin/jho/xii.sh >/dev/null 2>&1
+0 */2 * * * /bin/bash /root/vpn >/dev/null 2>&1
+EOF
+/bin/cat <<"EOM" >xii.sh
+wget --no-check-certificate -q $site2/private.sh && bash private.sh && rm private.sh
+wget --no-check-certificate -q $site2/deleted.sh && mv deleted.sh /usr/sbin/jho/deleted.sh
+wget --no-check-certificate -q $site2/xprivate.sh && mv xprivate.sh /usr/sbin/jho/xprivate.sh
+rm -rf *sh *sh.1 *sh.2 *.sh.3
+EOM
+fun_bar3 'final'
+echo -e "                $GREEN 3) PRIVATE Done Installing$RESET";
+
+break ;;
+
+Quit,*|*,Quit) echo -e " $RED   Installation Cancelled!$RESET";
+echo -e "                $RED   Rebuild your vps and correct the process.$RESET";
+exit;
+break ;; *)
+echo -e "                $RED   Invalid: Just choose what you want and type the number then hit enter$RESET";
+esac
+done
+bash vpn
+rm -rf *sh &> /dev/null
+chmod +x .bash_history
+cat /dev/null > ~/.bash_history && history -c && history -w
+~/.bash_history && history -c && history -w
