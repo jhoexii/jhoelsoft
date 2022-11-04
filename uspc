@@ -1,0 +1,146 @@
+{
+"Premium" : [{
+   "Category" : 0,
+    "Ip" : "us.smartnoloadsts.tk",
+    "udp" : "0",
+    "Flag" : "sg",
+    "Name" : "US SERVER"
+	},
+	{
+   "Category" : 0,
+    "Ip" : "sn.smartnoloadsts.tk",
+    "udp" : "0",
+    "Flag" : "sg",
+    "Name" : "SINGAPORE SERVER 1"
+	},
+	{
+   "Category" : 0,
+    "Ip" : "sn2.smartnoloadsts.tk",
+    "udp" : "0",
+    "Flag" : "sg",
+    "Name" : "SINGAPORE SERVER 1"
+	}
+	],
+  
+  
+"Vip" : [ {	
+	"Category" : 1,
+    "Ip" : "178.128.106.82",
+    "udp" : "0",
+    "Flag" : "sg",
+    "Name" : "tcpudp vip 1 beta"
+  },
+  {	
+	"Category" : 1,
+    "Ip" : "tweetdeck.twitter.com.premsg15.CodephGTM.ph",
+    "udp" : "0",
+    "Flag" : "sg",
+    "Name" : "tcpudp vip 2"
+  },{	
+	"Category" : 1,
+    "Ip" : "tweetdeck.twitter.com.premsg15.CodephGTM.ph",
+    "udp" : "0",
+    "Flag" : "sg",
+    "Name" : "tcpudp vip 3"
+  }
+  
+  ],
+  
+  "Private" : [ {
+  "Category" : 2,
+    "Ip" : "tweetdeck.twitter.com.premsg15.CodephGTM.ph",
+    "udp" : "0",
+    "Flag" : "sg",
+    "Name" : "tcpudp private 1"
+  },
+  {
+  "Category" : 2,
+    "Ip" : "tweetdeck.twitter.com.premsg15.CodephGTM.ph",
+    "udp" : "0",
+    "Flag" : "sg",
+    "Name" : "tcpudp private 2"
+  },
+  {
+  "Category" : 2,
+    "Ip" : "tweetdeck.twitter.com.premsg15.CodephGTM.ph",
+    "udp" : "0",
+    "Flag" : "sg",
+    "Name" : "tcpudp private 3"
+  },
+  ],
+  
+  
+     
+"categ" : [ {
+"Name" : "Premium",
+"Category" : 1
+
+}, {
+"Name" : "VIP",
+"Category" : 2
+}, {
+
+"Name" : "Private",
+"Category" : 3
+}
+
+],
+
+
+"Networks":[
+
+{
+"Name":"STS No Promo",
+"Proxy":"api.paymaya.com",
+"Port":"443",
+"Network":"globe",
+"Payload":"wA9HIMX2jPynkkG6eihQUCs3F3wTb8mb5xI/M5Gr2zen8jiwWHSctn/STRiYPJFl5BFcZT3tOn/2NYHb66aawhWQXCcmZxuAeD72WkAcCcFAQSrSsKobtHHiBhd1XWJ48sH69PANzZT6paQiqZR843lF9Eb1uUXaSAZd/uB8JDqIvjifCfiydYIPBsFEf7NWBtTrv5hCmeZQzYRmZAGTYjbPJ7zLqYzoS+7oTretXMaM7REiB3cA7gZVq/BwHsdC8k1K+CEqor4YNVEecXwgP60vxLWQftXbytYT674a94P9ZUV2wsDtV3j9b78jmcAkigZ0JEIQgY+zistFZJWyOXHDLvU1Rpg0iETd7hZCe30KdVGmaTfKsw==",
+"Sni":"dZeYGvKphPE86K3yTUEJ1xkZushFjIyNyMuFVENcaDFMVMcY+UBWi4NPry4b3ufUJ8pwv4nqPXuAnMwfSx1G9g==",
+"Message":"for sts users only"
+},
+{
+"Name":"GTM Promo",
+"Proxy":"0",
+"Port":"8989",
+"Network":"sun",
+"Payload":"jA92hPBwNgvNrfO4yH3xq2Vy6vxEPabRM+iBSOY3XR6yD45wvdZ5r/VvYypzBKlgOYpQlggmoHp56+vKkFA2IRfVsxKzizaXts/SDSNn7SCR7TpNv/TU7+0CcewxGyTz1a4tp3TfX116QQYd2WHVb2sEeSzj8JOiZRKVPkfprWTj0TxBfcRSi0xpRPjaoJwgSTI9hL9m4t582WPYjTJj1ezr9yKZQQCM7lXDyj8PRVMxZVLUEVgBQ7X3j0KF/BpDuj+eXiHJvjYceASFwaPvZ7ttkmSgCvY5EcFSe1RstL/7gwUM/BRscvH0bK5JJr/v3x7azFtb83yasoErF0ZrSgpuq4DIQYz41vuWWZizc9EoYV4ZBbTIfx+CiO0Gs8g4g2fKJJ6GyFojxRSC68Lf9HDIjspQt9M++sTeVhJrqNsrv4jUENTHxJIz0Bxj56gXGzYCRMwP5l30tIFid+kmfcOQrXTmudazZ04DO5k+KAizTi4urKmUC4OCQxH5qjOR1afNZ56rcydj5pV8Ttnb0RueWmyreq8gGsWCvEaEZH0pnVCA8rCRmBKBLKRjLjcCUpL0cmTDVBTkSprFNAQeZkeRRfUbY6sGYrhQwBxt7a7Uz2IGGxav6MzjXme4miS/WizWcGbqui2mJ4srSaU/cHVbhDZ4WAKsMUtVPYevrLI=",
+"Sni":"mPJ6vohlHXvEVslN9zDjC8j+FM5vlIV6qUKN/hcZp/DKS9XAUVFzPQ==",
+"Message":"fo gtm users only"
+},
+{
+"Name":"GTM Promo s",
+"Proxy":"0",
+"Port":"8989",
+"Network":"sun",
+"Payload":"wA9HIMX2jPynkkG6eihQUCs3F3wTb8mb5xI/M5Gr2zen8jiwWHSctn/STRiYPJFl5BFcZT3tOn/2NYHb66aawhWQXCcmZxuAeD72WkAcCcFAQSrSsKobtHHiBhd1XWJ48sH69PANzZT6paQiqZR843lF9Eb1uUXaSAZd/uB8JDqIvjifCfiydYIPBsFEf7NWBtTrv5hCmeZQzYRmZAGTYjbPJ7zLqYzoS+7oTretXMaM7REiB3cA7gZVq/BwHsdC8k1K+CEqor4YNVEecXwgP60vxLWQftXbytYT674a94P9ZUV2wsDtV3j9b78jmcAkigZ0JEIQgY+zistFZJWyOXHDLvU1Rpg0iETd7hZCe30KdVGmaTfKsw==",
+"Sni":"mPJ6vohlHXvEVslN9zDjC8j+FM5vlIV6qUKN/hcZp/DKS9XAUVFzPQ==",
+"Message":"fo gtm users only"
+},
+{
+"Name":"GTM Promo 2",
+"Proxy":"0",
+"Port":"441",
+"Network":"sun",
+"Payload":"/8cf/+diXo5fqewY6F45w9hkXCkeSbUYmeM5e4p3v/3KCY7zjvCaKrKscoE4EAmp4gatyX+eiB3cwXWRb0Blm/JzcgsOr1ke4YZAjMHi1Ok=",
+"Sni":"mPJ6vohlHXt1+mV62FysncH+PGNsVSvDClDDqafvvDY=",
+"Message":"fo gtm users only"
+},
+{
+"Name":"openvpn ssl",
+"Proxy":"0",
+"Port":"443",
+"Network":"sun",
+"Payload":"/8cf/+diXo5fqewY6F45w9hkXCkeSbUYmeM5e4p3v/3KCY7zjvCaKrKscoE4EAmp4gatyX+eiB3cwXWRb0Blm/JzcgsOr1ke4YZAjMHi1Ok=",
+"Sni":"mPJ6vohlHXvEVslN9zDjC8j+FM5vlIV6qUKN/hcZp/DKS9XAUVFzPQ==",
+"Message":"fo gtm users only"
+}
+],
+
+
+"Version": [
+{
+"Name":"1.0"
+}
+]
+
+}
