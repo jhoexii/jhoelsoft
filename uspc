@@ -18,7 +18,7 @@
     "Ip" : "sn2.smartnoloadsts.tk",
     "udp" : "0",
     "Flag" : "sg",
-    "Name" : "SINGAPORE SERVER 1"
+    "Name" : "SINGAPORE SERVER 2"
 	}
 	],
   
@@ -139,7 +139,7 @@
 
 "Version": [
 {
-"Name":"1.0"
+"Name":"1.1"
 }
 ]
 
