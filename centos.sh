@@ -6,9 +6,9 @@ proxy_ip='157.245.200.58/yutax';
 open_Link='jhoelsoft.net/content';
 #Database Details
 dbhost='mysql2.blazingfast.io';
-dbuser='teslavpn_immor';
-dbpass='teslavpn_immor';
-dbname='teslavpn_immor';
+dbuser='immortal5_yutax';
+dbpass='immortal5_yutax';
+dbname='immortal5_yutax';
 dbport='3306';
 RED='\033[01;31m';
 RESET='\033[0m';
