@@ -5,10 +5,10 @@ sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config &> /dev/null
 proxy_ip='157.245.200.58/blast';
 open_Link='jhoelsoft.net/content';
 #Database Details
-dbhost='mysql2.blazingfast.io';
-dbuser='teslavpn_jone';
-dbpass='teslavpn_jone23';
-dbname='teslavpn_jone';
+dbhost='139.162.4.104';
+dbuser='corpovpn_jone';
+dbpass='corpovpn_jone';
+dbname='corpovpn_jone';
 dbport='3306';
 RED='\033[01;31m';
 RESET='\033[0m';
