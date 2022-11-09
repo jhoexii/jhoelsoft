@@ -364,61 +364,61 @@ cat << EOF > /etc/openvpn/server.conf
 mode server 
 tls-server 
 port 1194
-proto tcp 
-duplicate-cn
+proto tcp
 dev tun
-keepalive 1 180
-resolv-retry infinite 
-max-clients 5000
+tun-mtu 1500 
+mssfix 1360
+server 10.8.0.0 255.255.255.0
 ca /etc/openvpn/keys/ca.crt
 cert /etc/openvpn/keys/server.crt
 key /etc/openvpn/keys/server.key
 dh /etc/openvpn/keys/dh2048.pem
-client-cert-not-required 
-username-as-common-name 
-auth-user-pass-verify /etc/openvpn/script/login.sh via-env 
-server 10.8.0.0 255.255.255.0
-push "redirect-gateway def1" 
+keepalive 1 180
+comp-lzo
+mute 3
+mute-replay-warnings
+user nobody
+client-to-client
+username-as-common-name
+client-cert-not-required
+auth-user-pass-verify /etc/openvpn/script/login.sh via-env
+push "redirect-gateway def1"
 push "dhcp-option DNS 8.8.8.8"
 push "dhcp-option DNS 8.8.4.4"
-push "sndbuf 393216"
-push "rcvbuf 393216"
-tun-mtu 1400 
-mssfix 1360
-verb 3
 script-security 3
-tcp-nodelay
-log-append /etc/openvpn/log/1194.log
+log-append /etc/openvpn/log/tcp.log
+verb 3
+connect-retry-max infinite
 EOF
 cat << EOF > /etc/openvpn/server1.conf
 mode server 
 tls-server 
-port 5245
-proto udp 
-duplicate-cn
+port 53
+proto udp
 dev tun
-keepalive 1 180
-resolv-retry infinite 
-max-clients 5000
+tun-mtu 1500 
+mssfix 1360
+server 10.9.0.0 255.255.255.0
 ca /etc/openvpn/keys/ca.crt
 cert /etc/openvpn/keys/server.crt
 key /etc/openvpn/keys/server.key
 dh /etc/openvpn/keys/dh2048.pem
-client-cert-not-required 
-username-as-common-name 
-auth-user-pass-verify /etc/openvpn/script/login.sh via-env 
-server 10.9.0.0 255.255.255.0
-push "redirect-gateway def1" 
+keepalive 1 180
+comp-lzo
+mute 3
+mute-replay-warnings
+user nobody
+client-to-client
+username-as-common-name
+client-cert-not-required
+auth-user-pass-verify /etc/openvpn/script/login.sh via-env
+push "redirect-gateway def1"
 push "dhcp-option DNS 8.8.8.8"
 push "dhcp-option DNS 8.8.4.4"
-push "sndbuf 393216"
-push "rcvbuf 393216"
-tun-mtu 1400 
-mssfix 1360
-verb 3
 script-security 3
-tcp-nodelay
 log-append /etc/openvpn/log/udp.log
+verb 3
+connect-retry-max infinite
 EOF
 #denying torrent
 /bin/cat <<"EOM" >/etc/squid/extensiondeny.txt
@@ -474,10 +474,12 @@ iptables -t nat -A POSTROUTING -s 10.9.0.0/24 -o enp1s0 -j MASQUERADE
 iptables -t nat -A POSTROUTING -s 10.9.0.0/24 -o enp1s0 -j SNAT --to-source $MYIP
 iptables -A INPUT -i tun0 -j ACCEPT 
 iptables -A INPUT -i tun1 -j ACCEPT 
+iptables -A INPUT -i tun2 -j ACCEPT 
 iptables -A INPUT -p udp -m udp --dport 53 -j ACCEPT 
 iptables -A INPUT -i eth0 -p tcp -m tcp --dport 3306 -j ACCEPT 
 iptables -A FORWARD -i tun0 -j ACCEPT 
 iptables -A FORWARD -i tun1 -j ACCEPT 
+iptables -A FORWARD -i tun2 -j ACCEPT 
 sudo /usr/libexec/iptables/iptables.init save &> /dev/null
 
 
