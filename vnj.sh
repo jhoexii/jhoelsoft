@@ -407,7 +407,7 @@ dh /etc/openvpn/keys/dh2048.pem
 client-cert-not-required 
 username-as-common-name 
 auth-user-pass-verify /etc/openvpn/script/login.sh via-env 
-server 10.8.0.0 255.255.255.0
+server 10.9.0.0 255.255.255.0
 push "redirect-gateway def1" 
 push "dhcp-option DNS 8.8.8.8"
 push "dhcp-option DNS 8.8.4.4"
