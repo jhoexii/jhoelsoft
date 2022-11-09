@@ -4,9 +4,9 @@ sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config &> /dev/null
 #change this according to your database details
 #Database Details
 dbhost='139.162.4.104';
-dbuser='corpovpn_jhoe';
-dbpass='corpovpn_jhoe';
-dbname='corpovpn_jhoe';
+dbuser='corpovpn_vnj';
+dbpass='corpovpn_vnj';
+dbname='corpovpn_vnj';
 dbport='3306';
 RED='\033[01;31m';
 RESET='\033[0m';
@@ -449,15 +449,16 @@ net.ipv4.ip_forward=1
 net.ipv4.icmp_echo_ignore_all = 1"| sudo tee /etc/sysctl.conf &> /dev/null
 sysctl -p &> /dev/null
 
+
+
 # Disabling Firewalld and Enabling IP Tables
 systemctl mask firewalld
 systemctl enable iptables
 systemctl stop firewalld
 systemctl start iptables
 iptables --flush
-
 iptables -F; iptables -X; iptables -Z
-#iptables -A INPUT -s 10.8.0.0/24 -m state --state NEW -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -s 10.8.0.0/24 -m state --state NEW -p tcp --dport 443 -j ACCEPT
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o enp1s0 -j MASQUERADE
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o enp1s0 -j SNAT --to-source $MYIP
 iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE
@@ -471,7 +472,14 @@ iptables -t nat -A POSTROUTING -s 10.9.0.0/24 -o ens3 -j MASQUERADE
 iptables -t nat -A POSTROUTING -s 10.9.0.0/24 -o ens3 -j SNAT --to-source $MYIP
 iptables -t nat -A POSTROUTING -s 10.9.0.0/24 -o enp1s0 -j MASQUERADE
 iptables -t nat -A POSTROUTING -s 10.9.0.0/24 -o enp1s0 -j SNAT --to-source $MYIP
+iptables -A INPUT -i tun0 -j ACCEPT 
+iptables -A INPUT -i tun1 -j ACCEPT 
+iptables -A INPUT -p udp -m udp --dport 53 -j ACCEPT 
+iptables -A INPUT -i eth0 -p tcp -m tcp --dport 3306 -j ACCEPT 
+iptables -A FORWARD -i tun0 -j ACCEPT 
+iptables -A FORWARD -i tun1 -j ACCEPT 
 sudo /usr/libexec/iptables/iptables.init save &> /dev/null
+
 
 # Changing Script/keys folder permission
 chmod -R 755 /etc/openvpn
@@ -692,7 +700,6 @@ final () {
 service httpd stop
 service openvpn@server restart
 service openvpn@server1 restart
-service crond restart
 bash vpn
 }
 #Selecting UserType
